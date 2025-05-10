@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Liens</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #0a0a0a, #1c2526);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header-window {
+            width: 100%;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 6;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            backdrop-filter: blur(5px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+            100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .badge:hover {
+            transform: scale(1.2);
+        }
+
+        .badge:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            z-index: 7;
+            transition: opacity 0.3s ease;
+        }
+
+        .window {
+            width: 250px;
+            height: 300px;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            z-index: 3;
+            cursor: move;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: linear-gradient(90deg, #2c2c2c, #3c3c3c);
+            border-bottom: 1px solid #444;
+        }
+
+        .window-logo {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .window-title {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .window-content {
+            width: 100%;
+            height: calc(100% - 44px);
+            padding: 5px;
+        }
+
+        .window-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .window:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            .header-window {
+                padding: 10px;
+            }
+
+            .header-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .profile-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .badge {
+                width: 30px;
+                height: 30px;
+            }
+
+            .window {
+                width: 200px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="header-window">
+        <div class="header-content">
+            <img src="https://via.placeholder.com/80" alt="Profil" class="profile-img">
+            <div class="header-text">
+                <h1>Votre Nom</h1>
+                <div class="badges">
+                    <div class="badge-container">
+                        <img src="https://via.placeholder.com/40?text=B1" alt="Badge 1" class="badge">
+                        <span class="tooltip">Certifié Créateur</span>
+                    </div>
+                    <div class="badge-container">
+                        <img src="https://via.placeholder.com/40?text=B2" alt="Badge 2" class="badge">
+                        <span class="tooltip">Membre Premium</span>
+                    </div>
+                    <div class="badge-container">
+                        <img src="https://via.placeholder.com/40?text=B3" alt="Badge 3" class="badge">
+                        <span class="tooltip">Contributeur Open Source</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="window" id="window-twitter" style="top: 200px; left: 100px;">
+        <div class="window-header">
+            <img src="https://via.placeholder.com/24?text=T" alt="Twitter Logo" class="window-logo">
+            <span class="window-title">Twitter</span>
+        </div>
+        <div class="window-content">
+            <iframe src="https://twitter.com" title="Twitter Preview"></iframe>
+        </div>
+    </div>
+    <div class="window" id="window-instagram" style="top: 200px; left: 400px;">
+        <div class="window-header">
+            <img src="https://via.placeholder.com/24?text=I" alt="Instagram Logo" class="window-logo">
+            <span class="window-title">Instagram</span>
+        </div>
+        <div class="window-content">
+            <iframe src="https://instagram.com" title="Instagram Preview"></iframe>
+        </div>
+    </div>
+    <div class="window" id="window-linkedin" style="top: 600px; left: 100px;">
+        <div class="window-header">
+            <img src="https://via.placeholder.com/24?text=L" alt="LinkedIn Logo" class="window-logo">
+            <span class="window-title">LinkedIn</span>
+        </div>
+        <div class="window-content">
+            <iframe src="https://linkedin.com" title="Twitter Preview"></iframe>
+        </div>
+    </div>
+    <div class="window" id="window-github" style="top: 600px; left: 400px;">
+        <div class="window-header">
+            <img src="https://via.placeholder.com/24?text=G" alt="GitHub Logo" class="window-logo">
+            <span class="window-title">GitHub</span>
+        </div>
+        <div class="window-content">
+            <iframe src="https://github.com" title="GitHub Preview"></iframe>
+        </div>
+    </div>
+    <div class="window" id="window-youtube" style="top: 400px; left: 250px;">
+        <div class="window-header">
+            <img src="https://via.placeholder.com/24?text=Y" alt="YouTube Logo" class="window-logo">
+            <span class="window-title">YouTube</span>
+        </div>
+        <div class="window-content">
+            <iframe src="https://youtube.com" title="YouTube Preview"></iframe>
+        </div>
+    </div>
+    <footer>© 2025 - Créé avec ❤️</footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Configuration des particules plus brillantes
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
+                opacity: { value: 0.8, random: true, anim: { enable: false } },
+                size: { value: 3, random: true, anim: { enable: false } },
+                line_linked: { enable: false },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: { enable: false }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: false }, onclick: { enable: false }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } } }
+            },
+            retina_detect: true
+        });
+
+        // Ajouter un effet de lueur aux particules
+        const canvas = document.querySelector('#particles-js canvas');
+        if (canvas) {
+            canvas.style.filter = 'brightness(1.5)';
+        }
+
+        // Gestion du drag-and-drop des fenêtres avec contraintes
+        document.querySelectorAll('.window').forEach(window => {
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+
+            window.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.window-header')) {
+                    initialX = e.clientX - currentX;
+                    initialY = e.clientY - currentY;
+                    isDragging = true;
+                    window.style.zIndex = 5; // Mettre la fenêtre au premier plan
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    const headerHeight = document.querySelector('.header-window').offsetHeight;
+                    const footerHeight = document.querySelector('footer').offsetHeight;
+                    const windowHeight = window.offsetHeight;
+                    const windowWidth = window.offsetWidth;
+
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+
+                    // Contraintes horizontales
+                    currentX = Math.max(0, Math.min(currentX, window.innerWidth - windowWidth));
+                    
+                    // Contraintes verticales
+                    currentY = Math.max(headerHeight, Math.min(currentY, window.innerHeight - windowHeight - footerHeight));
+
+                    window.style.left = `${currentX}px`;
+                    window.style.top = `${currentY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                window.style.zIndex = 3; // Réinitialiser le z-index
+            });
+
+            // Initialiser la position
+            currentX = parseInt(window.style.left) || 0;
+            currentY = parseInt(window.style.top) || 0;
+        });
+
+        // Animation d'apparition des fenêtres
+        document.addEventListener('DOMContentLoaded', () => {
+            const windows = document.querySelectorAll('.window');
+            windows.forEach((window, index) => {
+                window.style.opacity = '0';
+                window.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    window.style.transition = 'all 0.6s ease';
+                    window.style.opacity = '1';
+                    window.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Animation d'apparition de la barre header
+            const header = document.querySelector('.header-window');
+            header.style.opacity = '0';
+            header.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                header.style.transition = 'all 0.6s ease';
+                header.style.opacity = '1';
+                header.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
