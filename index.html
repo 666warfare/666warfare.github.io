@@ -6,14 +6,14 @@
     <title>𝟼𝚠α𝚛☆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <style>
         body {
             background-color: #000000;
             color: #ffffff;
             font-family: 'Arial', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            margin: 0;
+            cursor: url('assets/custom-cursor.png'), auto; /* Custom cursor */
         }
         canvas {
             position: fixed;
@@ -21,37 +21,64 @@
             left: 0;
             z-index: -1;
         }
-        .draggable-window {
-            height: auto;
-            min-height: auto;
-            width: 220px;
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: -2;
         }
-
-        .window-header {
-            height: 40px;
-            padding: 8px;
-        }
-
-        .window-header {
-            background-color: #222222;
-            padding: 10px;
-            cursor: move;
+        .social-menu {
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            margin-top: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            position: relative;
         }
-        .window-content {
-            height: 400px;
-            background-color: #111111;
+        .social-menu::-webkit-scrollbar {
+            display: none;
+        }
+        .social-item {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 16px;
+            padding: 16px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: transform 0.3s, opacity 0.3s, color 0.3s, font-size 0.3s;
+            opacity: 0.7;
+            transform: scale(0.8);
+            width: 100%;
+            max-width: 400px;
+            color: #808080; /* Gray color for social items */
+            font-size: 1.2rem; /* Smaller font size */
         }
-        .window-content:hover {
-            background-color: #222222;
+        .social-item.active {
+            opacity: 1;
+            transform: scale(1);
+            text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff; /* Glow effect */
+        }
+        .social-item:hover {
+            color: #ffffff; /* White color on hover */
+            font-size: 1.6rem; /* Larger font size on hover */
+            text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff; /* Glow effect on hover */
+        }
+        .social-item img {
+            width: 32px;
+            height: 32px;
+            transition: transform 0.3s;
+            filter: grayscale(100%); /* Gray filter for images */
+        }
+        .social-item:hover img,
+        .social-item.active img {
+            transform: scale(1.1);
+            filter: grayscale(0%); /* Remove gray filter on hover/active */
         }
         .badge {
             position: relative;
@@ -91,33 +118,26 @@
         .profile-pic:hover {
             transform: scale(1.05);
         }
-        .open-tab-btn {
-            background-color: #444;
-            padding: 4px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            position: absolute;
-            right: 10px;
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .open-tab-btn:hover {
-            background-color: #555;
-        }
-        .open-tab-icon {
-            width: 16px;
-            height: 16px;
-        }
-        .preview-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .audio-controls input[type="range"] {
+            width: 100px;
+            accent-color: #ffffff;
         }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
+    <video autoplay muted loop>
+        <source src="assets/background.mp4" type="video/mp4">
+    </video>
     <canvas id="particles"></canvas>
-    <img src="assets/banner.gif" alt="Banner" class="absolute top-0 w-full h-64 object-cover opacity-30 z-0 pointer-events-none">
-
 
     <!-- Header Section -->
     <div class="text-center py-8 relative z-10">
@@ -139,52 +159,32 @@
         </div>
     </div>
 
-    <!-- Draggable Windows Section -->
-    <div class="relative w-full max-w-4xl flex-1 z-10">
-        <!-- X Window -->
-    <div class="draggable-window" style="top: 20px; left: 20px;">
-        <div class="window-header">
-            <img src="assets/x.png" alt="X Icon" class="w-5 h-5">
-            <span class="text-sm">𝚇</span>
-            <button class="open-tab-btn" onclick="window.open('https://x.com/trucdewouf', '_blank')">
-                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
-            </button>
-        </div>
+    <!-- Social Menu Section -->
+    <div class="relative w-full max-w-md z-10 social-menu px-4">
+        <a href="https://x.com/trucdewouf" target="_blank" class="social-item active">
+            <img src="assets/x.png" alt="X Icon">
+            <span>𝚇</span>
+        </a>
+        <a href="https://www.instagram.com/lixmbxrdn/" target="_blank" class="social-item">
+            <img src="assets/instagram.png" alt="Instagram Icon">
+            <span>𝙸𝚗𝚜𝚝𝚊𝚐𝚛𝚊𝚖</span>
+        </a>
+        <a href="https://soundcloud.com/6war" target="_blank" class="social-item">
+            <img src="assets/soundcloud.png" alt="SoundCloud Icon">
+            <span>𝚂𝚘𝚞𝚗𝚍𝚌𝚕𝚘𝚞𝚍</span>
+        </a>
+        <a href="https://discord.gg/5NbEEEcaPq" target="_blank" class="social-item">
+            <img src="assets/discord.png" alt="Discord Icon">
+            <span>𝙳𝚒𝚜𝚌𝚘𝚛𝚍</span>
+        </a>
     </div>
 
-    <!-- Instagram Window -->
-    <div class="draggable-window" style="top: 20px; left: 260px;">
-        <div class="window-header">
-            <img src="assets/instagram.png" alt="Instagram Icon" class="w-5 h-5">
-            <span class="text-sm">𝙸𝚗𝚜𝚝𝚊𝚐𝚛𝚊𝚖</span>
-            <button class="open-tab-btn" onclick="window.open('https://www.instagram.com/lixmbxrdn/', '_blank')">
-                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
-            </button>
-        </div>
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
     </div>
-
-    <!-- SoundCloud Window -->
-    <div class="draggable-window" style="top: 80px; left: 140px;">
-        <div class="window-header">
-            <img src="assets/soundcloud.png" alt="SoundCloud Icon" class="w-5 h-5">
-            <span class="text-sm">𝚂𝚘𝚞𝚗𝚍𝚌𝚕𝚘𝚞𝚍</span>
-            <button class="open-tab-btn" onclick="window.open('https://soundcloud.com/6war', '_blank')">
-                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
-            </button>
-        </div>
-    </div>
-
-
 
     <script>
-        $(function() {
-            $('.draggable-window').draggable({
-                handle: '.window-header',
-                containment: 'body',
-                stack: '.draggable-window'
-            });
-        });
-
         // Particle animation
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
@@ -244,6 +244,49 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
+        // Scroll handling for social menu
+        const socialMenu = document.querySelector('.social-menu');
+        const socialItems = document.querySelectorAll('.social-item');
+
+        function updateActiveItem() {
+            let closestItem = null;
+            let closestDistance = Infinity;
+            const menuRect = socialMenu.getBoundingClientRect();
+            const menuCenter = menuRect.top + menuRect.height / 2;
+
+            socialItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const itemCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(menuCenter - itemCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestItem = item;
+                }
+            });
+
+            socialItems.forEach(item => item.classList.remove('active'));
+            if (closestItem) {
+                closestItem.classList.add('active');
+            }
+        }
+
+        socialMenu.addEventListener('scroll', updateActiveItem);
+        updateActiveItem(); // Initial call to set active item
+
+        // Audio controls
+        const audio = new Audio('assets/background-music.mp3');
+        audio.loop = true;
+        audio.autoplay = true; // Autoplay music
+        const volumeControl = document.getElementById('volumeControl');
+
+        volumeControl.addEventListener('input', () => {
+            audio.volume = volumeControl.value;
+        });
+
+        // Set initial volume
+        audio.volume = volumeControl.value;
     </script>
 </body>
 </html>
