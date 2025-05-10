@@ -3,398 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Liens</title>
+    <title>Mon LinkTree</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            min-height: 100vh;
-            background: linear-gradient(45deg, #0a0a0a, #1c2526);
-            background-size: 200% 200%;
-            animation: gradientShift 15s ease infinite;
-            padding: 20px;
-            position: relative;
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-
-        #particles-js {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .header-window {
-            width: 100%;
-            background: rgba(40, 40, 40, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 6;
-            padding: 15px;
-            display: flex;
-            align-items: flex-start;
-            backdrop-filter: blur(5px);
+            z-index: -1;
         }
-
-        .header-content {
-            display: flex;
-            align-items: flex-start;
-            flex-direction: row;
-            gap: 20px;
-        }
-
-        .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
-            100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-        }
-
-        .header-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .header-text h1 {
-            font-size: 2.5rem;
-            color: #ffffff;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            margin-bottom: 10px;
-        }
-
-        .badges {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .badge:hover {
-            transform: scale(1.2);
-        }
-
-        .badge:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .tooltip {
-            visibility: hidden;
-            opacity: 0;
-            background: rgba(0, 0, 0, 0.9);
-            color: #ffffff;
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 5px;
+        .draggable-window {
             position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            z-index: 7;
-            transition: opacity 0.3s ease;
-        }
-
-        .window {
-            width: 250px;
-            height: 300px;
-            background: rgba(40, 40, 40, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            position: absolute;
-            z-index: 3;
-            cursor: move;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            transition: transform 0.3s ease;
-            backdrop-filter: blur(5px);
         }
-
         .window-header {
+            background-color: #222222;
+            padding: 10px;
+            cursor: move;
             display: flex;
             align-items: center;
-            padding: 10px;
-            background: linear-gradient(90deg, #2c2c2c, #3c3c3c);
-            border-bottom: 1px solid #444;
+            gap: 10px;
         }
-
-        .window-logo {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
-
-        .window-title {
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
         .window-content {
-            width: 100%;
-            height: calc(100% - 44px);
-            padding: 5px;
+            height: 400px;
+            background-color: #111111;
         }
-
-        .window-content iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .window:hover {
-            transform: scale(1.05);
-        }
-
-        footer {
-            margin-top: 30px;
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            z-index: 2;
+        .badge {
             position: relative;
+            transition: transform 0.2s;
         }
-
-        @media (max-width: 480px) {
-            .header-window {
-                padding: 10px;
-            }
-
-            .header-text h1 {
-                font-size: 1.8rem;
-            }
-
-            .profile-img {
-                width: 60px;
-                height: 60px;
-            }
-
-            .badge {
-                width: 30px;
-                height: 30px;
-            }
-
-            .window {
-                width: 200px;
-                height: 250px;
-            }
+        .badge:hover {
+            transform: scale(1.1);
+        }
+        .badge-tooltip {
+            visibility: hidden;
+            background-color: #000000;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .badge:hover .badge-tooltip {
+            visibility: visible;
+        }
+        .glow {
+            text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff;
+        }
+        .badge-icon {
+            filter: drop-shadow(0 0 4px #ffffff);
+        }
+        .profile-pic {
+            filter: drop-shadow(0 0 8px #ffffff);
+            transition: transform 0.2s;
+        }
+        .profile-pic:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body>
-    <div id="particles-js"></div>
-    <div class="header-window">
-        <div class="header-content">
-            <img src="https://via.placeholder.com/80" alt="Profil" class="profile-img">
-            <div class="header-text">
-                <h1>Votre Nom</h1>
-                <div class="badges">
-                    <div class="badge-container">
-                        <img src="https://via.placeholder.com/40?text=B1" alt="Badge 1" class="badge">
-                        <span class="tooltip">Certifié Créateur</span>
-                    </div>
-                    <div class="badge-container">
-                        <img src="https://via.placeholder.com/40?text=B2" alt="Badge 2" class="badge">
-                        <span class="tooltip">Membre Premium</span>
-                    </div>
-                    <div class="badge-container">
-                        <img src="https://via.placeholder.com/40?text=B3" alt="Badge 3" class="badge">
-                        <span class="tooltip">Contributeur Open Source</span>
-                    </div>
-                </div>
+<body class="flex flex-col items-center min-h-screen">
+    <canvas id="particles"></canvas>
+
+    <!-- Header Section -->
+    <div class="text-center py-8 relative z-10">
+        <img src="assets/profile.jpg" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 profile-pic">
+        <h1 class="text-3xl font-bold glow">Mon Nom</h1>
+        <div class="flex justify-center gap-4 mt-4">
+            <span class="badge">
+                <img src="assets/creator.png" alt="Créateur Icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Créateur de contenu</span>
+            </span>
+            <span class="badge">
+                <img src="assets/developer.png" alt="Développeur Icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Développeur web</span>
+            </span>
+            <span class="badge">
+                <img src="assets/artist.png" alt="Artiste Icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Artiste numérique</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Draggable Windows Section -->
+    <div class="relative w-full max-w-4xl flex-1 z-10">
+        <!-- Twitter Window -->
+        <div class="draggable-window" style="top: 20px; left: 20px;">
+            <div class="window-header">
+                <img src Gajendra Singh://x.com" class="w-full h-full border-none"></iframe>
+            </div>
+        </div>
+
+        <!-- Instagram Window -->
+        <div class="draggable-window" style="top: 20px; left: 340px;">
+            <div class="window-header">
+                <img src="assets/instagram.png" alt="Instagram Icon" class="w-5 h-5">
+                <span>Instagram</span>
+            </div>
+            <div class="window-content">
+                <iframe src="https://instagram.com" class="w-full h-full border-none"></iframe>
+            </div>
+        </div>
+
+        <!-- LinkedIn Window -->
+        <div class="draggable-window" style="top: 460px; left: 20px;">
+            <div class="window-header">
+                <img src="assets/linkedin.png" alt="LinkedIn Icon" class="w-5 h-5">
+                <span>LinkedIn</span>
+            </div>
+            <div class="window-content">
+                <iframe src="https://linkedin.com" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
-    <div class="window" id="window-twitter" style="top: 200px; left: 100px;">
-        <div class="window-header">
-            <img src="https://via.placeholder.com/24?text=T" alt="Twitter Logo" class="window-logo">
-            <span class="window-title">Twitter</span>
-        </div>
-        <div class="window-content">
-            <iframe src="https://twitter.com" title="Twitter Preview"></iframe>
-        </div>
-    </div>
-    <div class="window" id="window-instagram" style="top: 200px; left: 400px;">
-        <div class="window-header">
-            <img src="https://via.placeholder.com/24?text=I" alt="Instagram Logo" class="window-logo">
-            <span class="window-title">Instagram</span>
-        </div>
-        <div class="window-content">
-            <iframe src="https://instagram.com" title="Instagram Preview"></iframe>
-        </div>
-    </div>
-    <div class="window" id="window-linkedin" style="top: 600px; left: 100px;">
-        <div class="window-header">
-            <img src="https://via.placeholder.com/24?text=L" alt="LinkedIn Logo" class="window-logo">
-            <span class="window-title">LinkedIn</span>
-        </div>
-        <div class="window-content">
-            <iframe src="https://linkedin.com" title="Twitter Preview"></iframe>
-        </div>
-    </div>
-    <div class="window" id="window-github" style="top: 600px; left: 400px;">
-        <div class="window-header">
-            <img src="https://via.placeholder.com/24?text=G" alt="GitHub Logo" class="window-logo">
-            <span class="window-title">GitHub</span>
-        </div>
-        <div class="window-content">
-            <iframe src="https://github.com" title="GitHub Preview"></iframe>
-        </div>
-    </div>
-    <div class="window" id="window-youtube" style="top: 400px; left: 250px;">
-        <div class="window-header">
-            <img src="https://via.placeholder.com/24?text=Y" alt="YouTube Logo" class="window-logo">
-            <span class="window-title">YouTube</span>
-        </div>
-        <div class="window-content">
-            <iframe src="https://youtube.com" title="YouTube Preview"></iframe>
-        </div>
-    </div>
-    <footer>© 2025 - Créé avec ❤️</footer>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Configuration des particules plus brillantes
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#ffffff' },
-                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
-                opacity: { value: 0.8, random: true, anim: { enable: false } },
-                size: { value: 3, random: true, anim: { enable: false } },
-                line_linked: { enable: false },
-                move: {
-                    enable: true,
-                    speed: 3,
-                    direction: 'none',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: { enable: false }
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: { onhover: { enable: false }, onclick: { enable: false }, resize: true },
-                modes: { grab: { distance: 400, line_linked: { opacity: 1 } } }
-            },
-            retina_detect: true
+        $(function() {
+            $('.draggable-window').draggable({
+                handle: '.window-header',
+                containment: 'body',
+                stack: '.draggable-window'
+            });
         });
 
-        // Ajouter un effet de lueur aux particules
-        const canvas = document.querySelector('#particles-js canvas');
-        if (canvas) {
-            canvas.style.filter = 'brightness(1.5)';
+        // Particle animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 50;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() * 2 - 1) * 0.5;
+                this.speedY = (Math.random() * 2 - 1) * 0.5;
+                this.brightness = Math.random() * 0.5 + 0.5;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.brightness})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ffffff';
+                ctx.fill();
+            }
         }
 
-        // Gestion du drag-and-drop des fenêtres avec contraintes
-        document.querySelectorAll('.window').forEach(window => {
-            let isDragging = false;
-            let currentX;
-            let currentY;
-            let initialX;
-            let initialY;
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
 
-            window.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.window-header')) {
-                    initialX = e.clientX - currentX;
-                    initialY = e.clientY - currentY;
-                    isDragging = true;
-                    window.style.zIndex = 5; // Mettre la fenêtre au premier plan
-                }
-            });
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
 
-            document.addEventListener('mousemove', (e) => {
-                if (isDragging) {
-                    e.preventDefault();
-                    const headerHeight = document.querySelector('.header-window').offsetHeight;
-                    const footerHeight = document.querySelector('footer').offsetHeight;
-                    const windowHeight = window.offsetHeight;
-                    const windowWidth = window.offsetWidth;
+        init();
+        animate();
 
-                    currentX = e.clientX - initialX;
-                    currentY = e.clientY - initialY;
-
-                    // Contraintes horizontales
-                    currentX = Math.max(0, Math.min(currentX, window.innerWidth - windowWidth));
-                    
-                    // Contraintes verticales
-                    currentY = Math.max(headerHeight, Math.min(currentY, window.innerHeight - windowHeight - footerHeight));
-
-                    window.style.left = `${currentX}px`;
-                    window.style.top = `${currentY}px`;
-                }
-            });
-
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-                window.style.zIndex = 3; // Réinitialiser le z-index
-            });
-
-            // Initialiser la position
-            currentX = parseInt(window.style.left) || 0;
-            currentY = parseInt(window.style.top) || 0;
-        });
-
-        // Animation d'apparition des fenêtres
-        document.addEventListener('DOMContentLoaded', () => {
-            const windows = document.querySelectorAll('.window');
-            windows.forEach((window, index) => {
-                window.style.opacity = '0';
-                window.style.transform = 'translateY(30px)';
-                setTimeout(() => {
-                    window.style.transition = 'all 0.6s ease';
-                    window.style.opacity = '1';
-                    window.style.transform = 'translateY(0)';
-                }, index * 150);
-            });
-
-            // Animation d'apparition de la barre header
-            const header = document.querySelector('.header-window');
-            header.style.opacity = '0';
-            header.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                header.style.transition = 'all 0.6s ease';
-                header.style.opacity = '1';
-                header.style.transform = 'translateY(0)';
-            }, 100);
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
