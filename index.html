@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon LinkTree</title>
+    <title>𝟼𝚠α𝚛☆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -22,14 +22,16 @@
             z-index: -1;
         }
         .draggable-window {
-            position: absolute;
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+            height: auto;
+            min-height: auto;
+            width: 220px;
         }
+
+        .window-header {
+            height: 40px;
+            padding: 8px;
+        }
+
         .window-header {
             background-color: #222222;
             padding: 10px;
@@ -37,10 +39,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
         }
         .window-content {
             height: 400px;
             background-color: #111111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .window-content:hover {
+            background-color: #222222;
         }
         .badge {
             position: relative;
@@ -80,62 +91,90 @@
         .profile-pic:hover {
             transform: scale(1.05);
         }
+        .open-tab-btn {
+            background-color: #444;
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: absolute;
+            right: 10px;
+        }
+        .open-tab-btn:hover {
+            background-color: #555;
+        }
+        .open-tab-icon {
+            width: 16px;
+            height: 16px;
+        }
+        .preview-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
     <canvas id="particles"></canvas>
+    <img src="assets/banner.jpg" alt="Banner" class="absolute top-0 w-full h-64 object-cover opacity-30 z-0 pointer-events-none">
+
 
     <!-- Header Section -->
     <div class="text-center py-8 relative z-10">
-        <img src="assets/profile.jpg" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 profile-pic">
-        <h1 class="text-3xl font-bold glow">Mon Nom</h1>
+        <img src="assets/profile.png" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 profile-pic">
+        <h1 class="text-3xl font-bold glow">𝟼𝚠α𝚛☆</h1>
         <div class="flex justify-center gap-4 mt-4">
             <span class="badge">
-                <img src="assets/creator.png" alt="Créateur Icon" class="w-6 h-6 badge-icon">
-                <span class="badge-tooltip">Créateur de contenu</span>
+                <img src="assets/grok.png" alt="Grok Icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Généré avec Grok</span>
             </span>
             <span class="badge">
-                <img src="assets/developer.png" alt="Développeur Icon" class="w-6 h-6 badge-icon">
-                <span class="badge-tooltip">Développeur web</span>
+                <img src="assets/artist.gif" alt="Artiste Icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Artiste</span>
             </span>
             <span class="badge">
-                <img src="assets/artist.png" alt="Artiste Icon" class="w-6 h-6 badge-icon">
-                <span class="badge-tooltip">Artiste numérique</span>
+                <img src="assets/love.png" alt="Love icon" class="w-6 h-6 badge-icon">
+                <span class="badge-tooltip">Belong to waylennariann ♡</span>
             </span>
         </div>
     </div>
 
     <!-- Draggable Windows Section -->
     <div class="relative w-full max-w-4xl flex-1 z-10">
-        <!-- Twitter Window -->
-        <div class="draggable-window" style="top: 20px; left: 20px;">
-            <div class="window-header">
-                <img src Gajendra Singh://x.com" class="w-full h-full border-none"></iframe>
-            </div>
-        </div>
-
-        <!-- Instagram Window -->
-        <div class="draggable-window" style="top: 20px; left: 340px;">
-            <div class="window-header">
-                <img src="assets/instagram.png" alt="Instagram Icon" class="w-5 h-5">
-                <span>Instagram</span>
-            </div>
-            <div class="window-content">
-                <iframe src="https://instagram.com" class="w-full h-full border-none"></iframe>
-            </div>
-        </div>
-
-        <!-- LinkedIn Window -->
-        <div class="draggable-window" style="top: 460px; left: 20px;">
-            <div class="window-header">
-                <img src="assets/linkedin.png" alt="LinkedIn Icon" class="w-5 h-5">
-                <span>LinkedIn</span>
-            </div>
-            <div class="window-content">
-                <iframe src="https://linkedin.com" class="w-full h-full border-none"></iframe>
-            </div>
+        <!-- X Window -->
+    <div class="draggable-window" style="top: 20px; left: 20px;">
+        <div class="window-header">
+            <img src="assets/X.png" alt="X Icon" class="w-5 h-5">
+            <span class="text-sm">𝚇</span>
+            <button class="open-tab-btn" onclick="window.open('https://x.com/trucdewouf', '_blank')">
+                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
+            </button>
         </div>
     </div>
+
+    <!-- Instagram Window -->
+    <div class="draggable-window" style="top: 20px; left: 260px;">
+        <div class="window-header">
+            <img src="assets/instagram.png" alt="Instagram Icon" class="w-5 h-5">
+            <span class="text-sm">𝙸𝚗𝚜𝚝𝚊𝚐𝚛𝚊𝚖</span>
+            <button class="open-tab-btn" onclick="window.open('https://www.instagram.com/lixmbxrdn/', '_blank')">
+                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
+            </button>
+        </div>
+    </div>
+
+    <!-- SoundCloud Window -->
+    <div class="draggable-window" style="top: 80px; left: 140px;">
+        <div class="window-header">
+            <img src="assets/soundcloud.png" alt="SoundCloud Icon" class="w-5 h-5">
+            <span class="text-sm">𝚂𝚘𝚞𝚗𝚍𝚌𝚕𝚘𝚞𝚍</span>
+            <button class="open-tab-btn" onclick="window.open('https://soundcloud.com/6war', '_blank')">
+                <img src="assets/external-link.png" alt="External Link Icon" class="open-tab-icon">
+            </button>
+        </div>
+    </div>
+
+
 
     <script>
         $(function() {
